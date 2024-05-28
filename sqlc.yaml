@@ -1,0 +1,11 @@
+# sqlc.yaml
+version: "1"
+packages:
+  - name: "db"
+    path: "./backend/db"
+    queries: "./backend/sql/queries"
+    schema: "./backend/sql/schema"
+    engine: "postgresql"
+    emit_json_tags: true
+    emit_prepared_queries: false
+    emit_interface: false

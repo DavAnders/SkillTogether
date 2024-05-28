@@ -1,12 +1,13 @@
 package main
 
 import (
-	"SkillTogether/bot/commands"
 	"fmt"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"github.com/DavAnders/SkillTogether/bot/commands"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"

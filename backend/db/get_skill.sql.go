@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const getSkill = `-- name: GetSkill :one
@@ -15,9 +16,16 @@ FROM skills
 WHERE id = $1
 `
 
-func (q *Queries) GetSkill(ctx context.Context, id int32) (Skill, error) {
+type GetSkillRow struct {
+	ID               int32         `json:"id"`
+	UserID           sql.NullInt32 `json:"user_id"`
+	SkillDescription string        `json:"skill_description"`
+	CreatedAt        sql.NullTime  `json:"created_at"`
+}
+
+func (q *Queries) GetSkill(ctx context.Context, id int32) (GetSkillRow, error) {
 	row := q.db.QueryRowContext(ctx, getSkill, id)
-	var i Skill
+	var i GetSkillRow
 	err := row.Scan(
 		&i.ID,
 		&i.UserID,

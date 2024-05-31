@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const addSkill = `-- name: AddSkill :one
@@ -16,8 +17,8 @@ RETURNING id
 `
 
 type AddSkillParams struct {
-	UserID           string `json:"user_id"`
-	SkillDescription string `json:"skill_description"`
+	UserID           sql.NullInt32 `json:"user_id"`
+	SkillDescription string        `json:"skill_description"`
 }
 
 func (q *Queries) AddSkill(ctx context.Context, arg AddSkillParams) (int32, error) {

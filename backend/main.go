@@ -42,7 +42,11 @@ func main() {
 	dbQueries := db.New(database)
 	handler := handler.NewHandler(dbQueries)
 
+	router.GET("/skills", handler.GetAllSkills)
+	router.GET("/skills/:id", handler.GetSkill)
 	router.POST("/skills", handler.AddSkill)
+	router.PUT("/skills/:id", handler.UpdateSkill)
+	router.DELETE("/skills/:id", handler.DeleteSkill)
 
 	server := &http.Server{
 		Addr:    ":8080",

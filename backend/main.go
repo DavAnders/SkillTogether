@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/DavAnders/SkillTogether/backend/db"
+	"github.com/DavAnders/SkillTogether/backend/internal/auth"
 	"github.com/DavAnders/SkillTogether/backend/internal/handler"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -41,17 +42,22 @@ func main() {
 	router := gin.Default()
 	dbQueries := db.New(database)
 	handler := handler.NewHandler(dbQueries)
+	authHandler := auth.NewAuthHandler(dbQueries)
 
+	// Skill routes
 	router.GET("/skills", handler.GetAllSkills)
 	router.GET("/skills/:id", handler.GetSkill)
 	router.POST("/skills", handler.AddSkill)
 	router.PUT("/skills/:id", handler.UpdateSkill)
 	router.DELETE("/skills/:id", handler.DeleteSkill)
+
+	// User routes
 	router.PUT("/users/:discord_id", handler.UpdateUser)
 	router.GET("/users/:discord_id", handler.GetUser)
 	router.DELETE("/users/:discord_id", handler.DeleteUser)
 
-	router.POST("/users", handler.AddUser)
+	// Discord OAuth2 routes
+	router.GET("/callback", authHandler.DiscordCallbackHandler)
 
 	server := &http.Server{
 		Addr:    ":8080",

@@ -47,6 +47,11 @@ func main() {
 	router.POST("/skills", handler.AddSkill)
 	router.PUT("/skills/:id", handler.UpdateSkill)
 	router.DELETE("/skills/:id", handler.DeleteSkill)
+	router.PUT("/users/:discord_id", handler.UpdateUser)
+	router.GET("/users/:discord_id", handler.GetUser)
+	router.DELETE("/users/:discord_id", handler.DeleteUser)
+
+	router.POST("/users", handler.AddUser)
 
 	server := &http.Server{
 		Addr:    ":8080",

@@ -11,16 +11,17 @@ import (
 )
 
 const addUser = `-- name: AddUser :one
-INSERT INTO users (discord_id, username, email, avatar_url, created_at, updated_at)
-VALUES ($1, $2, $3, $4, NOW(), NOW())
+INSERT INTO users (discord_id, username, email, avatar_url, created_at, updated_at, session_token)
+VALUES ($1, $2, $3, $4, NOW(), NOW(), $5)
 RETURNING id
 `
 
 type AddUserParams struct {
-	DiscordID string         `json:"discord_id"`
-	Username  string         `json:"username"`
-	Email     string         `json:"email"`
-	AvatarUrl sql.NullString `json:"avatar_url"`
+	DiscordID    string         `json:"discord_id"`
+	Username     string         `json:"username"`
+	Email        string         `json:"email"`
+	AvatarUrl    sql.NullString `json:"avatar_url"`
+	SessionToken sql.NullString `json:"session_token"`
 }
 
 func (q *Queries) AddUser(ctx context.Context, arg AddUserParams) (int32, error) {
@@ -29,6 +30,7 @@ func (q *Queries) AddUser(ctx context.Context, arg AddUserParams) (int32, error)
 		arg.Username,
 		arg.Email,
 		arg.AvatarUrl,
+		arg.SessionToken,
 	)
 	var id int32
 	err := row.Scan(&id)

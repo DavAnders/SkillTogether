@@ -12,6 +12,7 @@ import (
 	"github.com/DavAnders/SkillTogether/backend/db"
 	"github.com/DavAnders/SkillTogether/backend/internal/auth"
 	"github.com/DavAnders/SkillTogether/backend/internal/handler"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -39,22 +40,41 @@ func main() {
 
 	defer database.Close()
 
+	config := cors.Config{
+		AllowOrigins: []string{"http://localhost:5173"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders: []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://localhost:5173"
+		},
+		MaxAge: 12 * time.Hour,
+	}
+
 	router := gin.Default()
+	router.Use(cors.New(config))
+
 	dbQueries := db.New(database)
 	handler := handler.NewHandler(dbQueries)
 	authHandler := auth.NewAuthHandler(dbQueries)
 
+	authorized := router.Group("/api")
+	authorized.Use(auth.AuthMiddleware(dbQueries))
+
 	// Skill routes
-	router.GET("/skills", handler.GetAllSkills)
-	router.GET("/skills/:id", handler.GetSkill)
-	router.POST("/skills", handler.AddSkill)
-	router.PUT("/skills/:id", handler.UpdateSkill)
-	router.DELETE("/skills/:id", handler.DeleteSkill)
+	authorized.GET("/skills", handler.GetAllSkills)
+	authorized.GET("/skills/:id", handler.GetSkill)
+	authorized.POST("/skills", handler.AddSkill)
+	authorized.PUT("/skills/:id", handler.UpdateSkill)
+	authorized.DELETE("/skills/:id", handler.DeleteSkill)
 
 	// User routes
-	router.PUT("/users/:discord_id", handler.UpdateUser)
-	router.GET("/users/:discord_id", handler.GetUser)
-	router.DELETE("/users/:discord_id", handler.DeleteUser)
+	authorized.PUT("/users/:discord_id", handler.UpdateUser)
+	authorized.GET("/users/:discord_id", handler.GetUser)
+	authorized.DELETE("/users/:discord_id", handler.DeleteUser)
+
+	authorized.GET("/me", authHandler.GetUserFromSession)
 
 	// Discord OAuth2 routes
 	router.GET("/callback", authHandler.DiscordCallbackHandler)

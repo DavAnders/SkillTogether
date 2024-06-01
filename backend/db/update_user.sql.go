@@ -12,15 +12,16 @@ import (
 
 const updateUser = `-- name: UpdateUser :exec
 UPDATE users
-SET username = $2, email = $3, avatar_url = $4, updated_at = NOW()
+SET username = $2, email = $3, avatar_url = $4, session_token = $5, updated_at = NOW()
 WHERE discord_id = $1
 `
 
 type UpdateUserParams struct {
-	DiscordID string         `json:"discord_id"`
-	Username  string         `json:"username"`
-	Email     string         `json:"email"`
-	AvatarUrl sql.NullString `json:"avatar_url"`
+	DiscordID    string         `json:"discord_id"`
+	Username     string         `json:"username"`
+	Email        string         `json:"email"`
+	AvatarUrl    sql.NullString `json:"avatar_url"`
+	SessionToken sql.NullString `json:"session_token"`
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
@@ -29,6 +30,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
 		arg.Username,
 		arg.Email,
 		arg.AvatarUrl,
+		arg.SessionToken,
 	)
 	return err
 }

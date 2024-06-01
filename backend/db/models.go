@@ -6,6 +6,7 @@ package db
 
 import (
 	"database/sql"
+	"time"
 )
 
 type Skill struct {
@@ -16,11 +17,18 @@ type Skill struct {
 }
 
 type User struct {
-	ID        int32          `json:"id"`
-	DiscordID string         `json:"discord_id"`
-	Username  string         `json:"username"`
-	Email     string         `json:"email"`
-	AvatarUrl sql.NullString `json:"avatar_url"`
-	CreatedAt sql.NullTime   `json:"created_at"`
-	UpdatedAt sql.NullTime   `json:"updated_at"`
+	ID           int32          `json:"id"`
+	DiscordID    string         `json:"discord_id"`
+	Username     string         `json:"username"`
+	Email        string         `json:"email"`
+	AvatarUrl    sql.NullString `json:"avatar_url"`
+	CreatedAt    sql.NullTime   `json:"created_at"`
+	UpdatedAt    sql.NullTime   `json:"updated_at"`
+	SessionToken sql.NullString `json:"session_token"`
+}
+
+type UserSession struct {
+	SessionToken string    `json:"session_token"`
+	DiscordID    string    `json:"discord_id"`
+	ExpiresAt    time.Time `json:"expires_at"`
 }

@@ -11,7 +11,7 @@ import (
 )
 
 const getUserByID = `-- name: GetUserByID :one
-SELECT id, username, email, avatar_url
+SELECT id, username, email, avatar_url, discord_id
 FROM users
 WHERE id = $1
 `
@@ -21,6 +21,7 @@ type GetUserByIDRow struct {
 	Username  string         `json:"username"`
 	Email     string         `json:"email"`
 	AvatarUrl sql.NullString `json:"avatar_url"`
+	DiscordID string         `json:"discord_id"`
 }
 
 func (q *Queries) GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, error) {
@@ -31,6 +32,7 @@ func (q *Queries) GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, er
 		&i.Username,
 		&i.Email,
 		&i.AvatarUrl,
+		&i.DiscordID,
 	)
 	return i, err
 }

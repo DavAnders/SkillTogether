@@ -13,6 +13,7 @@ type UserSimple struct {
     ID        int32  `json:"id"`
     Username  string `json:"username"`
     AvatarURL string `json:"avatar_url"`
+	DiscordID string `json:"discord_id"`
 }
 type EnhancedSkill struct {
     Skill db.SimpleSearchSkillRow `json:"skill"`
@@ -52,14 +53,13 @@ func (h *Handler) SearchSkillsWithUserInfo(c *gin.Context) {
         return
     }
 
-    // Enhance skills with user info
     enhancedSkills := make([]EnhancedSkill, 0, len(skills))
     for _, skill := range skills {
-        userID := skill.UserID.Int32
+        userID := skill.UserID.Int32 
 
         user, err := h.Queries.GetUserByID(c, userID)
         if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user info"})
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user info"})
 			return
         }
 
@@ -74,6 +74,7 @@ func (h *Handler) SearchSkillsWithUserInfo(c *gin.Context) {
                 ID:        user.ID,
                 Username:  user.Username,
                 AvatarURL: avatarURL,
+                DiscordID: user.DiscordID,
             },
         })
     }

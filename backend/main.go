@@ -79,6 +79,11 @@ func main() {
 	// Discord OAuth2 routes
 	router.GET("/callback", authHandler.DiscordCallbackHandler)
 
+	// Bot routes
+	bot := router.Group("/bot")
+	bot.Use(auth.AuthAPIKeyMiddleware())
+	bot.POST("/skills", handler.AddSkillByBot)
+
 	server := &http.Server{
 		Addr:    ":8080",
 		Handler: router,

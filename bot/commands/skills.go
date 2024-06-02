@@ -1,18 +1,37 @@
 package commands
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
 	"strings"
 	"sync"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+    err := godotenv.Load()
+    if err != nil {
+        fmt.Println("Error loading .env file")
+        return
+    }
+}
 
 var (
 	userStates = make(map[string]string)
 	tempSkillStorage = make(map[string]string)
 	statesMutex = &sync.Mutex{}
 )
+
+type SkillPostRequest struct {
+    DiscordID string `json:"discord_id"`
+    SkillDescription string `json:"skill_description"`
+}
 
 func clearUserState(userID string) {
     statesMutex.Lock()
@@ -91,8 +110,54 @@ func handleConfirmSkill(session *discordgo.Session, message *discordgo.MessageCr
     content := strings.ToLower(strings.TrimSpace(message.Content))
     if content == "yes" {
         skillDescription := tempSkillStorage[message.Author.ID]
-        fmt.Println("Skill posted: ", skillDescription) // Need to replace with actual posting logic
-        session.ChannelMessageSend(message.ChannelID, "Skill posted.")
+        
+        // Prepare the POST request to your API
+        skillData := SkillPostRequest{
+            DiscordID:      message.Author.ID,
+            SkillDescription: skillDescription,
+        }
+        jsonData, err := json.Marshal(skillData)
+        if err != nil {
+            session.ChannelMessageSend(message.ChannelID, "Error processing request: unable to marshal JSON.")
+            return
+        }
+
+        // Adjust the URL to your API endpoint
+        baseUrl := os.Getenv("API_URL")
+        if baseUrl == "" {
+            session.ChannelMessageSend(message.ChannelID, "API URL is not set.")
+            return
+        }
+
+        // Create an HTTP client and request
+        client := &http.Client{}
+        req, err := http.NewRequest("POST", baseUrl+"/bot/skills", bytes.NewBuffer(jsonData))
+        if err != nil {
+            session.ChannelMessageSend(message.ChannelID, "Failed to create request: " + err.Error())
+            return
+        }
+
+        // Add the API key to the request header
+        apiKey := os.Getenv("MY_API_KEY")
+        req.Header.Set("Content-Type", "application/json")
+        req.Header.Set("X-API-Key", apiKey)
+
+        // Execute the POST request
+        resp, err := client.Do(req)
+        if err != nil {
+            session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("Failed to post skill due to an error: %v", err))
+            return
+        }
+        defer resp.Body.Close()
+
+        // Check response status code
+        if resp.StatusCode != http.StatusOK {
+            bodyBytes, _ := io.ReadAll(resp.Body) // Reading the body for additional error context
+            session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("Failed to post skill. Status: %s, Response: %s", resp.Status, string(bodyBytes)))
+            return
+        }
+
+        session.ChannelMessageSend(message.ChannelID, "Skill posted successfully.")
         clearUserState(message.Author.ID)
     } else if content == "no" {
         session.ChannelMessageSend(message.ChannelID, "Skill addition cancelled.")
@@ -101,6 +166,7 @@ func handleConfirmSkill(session *discordgo.Session, message *discordgo.MessageCr
         session.ChannelMessageSend(message.ChannelID, "Invalid response. Please reply 'yes' to confirm or 'no' to cancel.")
     }
 }
+
 
 func ListSkills(session *discordgo.Session, message *discordgo.MessageCreate) {
 	session.ChannelMessageSend(message.ChannelID, "Listing skills")

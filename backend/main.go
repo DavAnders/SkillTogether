@@ -68,6 +68,7 @@ func main() {
 	authorized.POST("/skills", handler.AddSkill)
 	authorized.PUT("/skills/:id", handler.UpdateSkill)
 	authorized.DELETE("/skills/:id", handler.DeleteSkill)
+	authorized.GET("/search/skills", handler.SearchSkillsWithUserInfo) // Includes user info
 
 	// User routes
 	authorized.PUT("/users/:discord_id", handler.UpdateUser)

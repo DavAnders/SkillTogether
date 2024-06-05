@@ -9,6 +9,13 @@ import (
 	"time"
 )
 
+type Interest struct {
+	ID        int32        `json:"id"`
+	UserID    int32        `json:"user_id"`
+	Interest  string       `json:"interest"`
+	CreatedAt sql.NullTime `json:"created_at"`
+}
+
 type Skill struct {
 	ID               int32         `json:"id"`
 	SkillDescription string        `json:"skill_description"`

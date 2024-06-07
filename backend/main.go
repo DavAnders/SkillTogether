@@ -84,6 +84,7 @@ func main() {
 	bot := router.Group("/bot")
 	bot.Use(auth.AuthAPIKeyMiddleware())
 	bot.POST("/skills", handler.AddSkillByBot)
+	bot.POST("/interests", handler.AddInterestByBot)
 
 	server := &http.Server{
 		Addr:    ":8080",

@@ -33,6 +33,11 @@ type PostRequest struct {
     Description string `json:"description"`
 }
 
+type InterestPostRequest struct {
+    DiscordID string `json:"discord_id"`
+    Interest  string `json:"interest"`
+}
+
 func clearUserState(userID string) {
     statesMutex.Lock()
     delete(userStates, userID)
@@ -215,12 +220,12 @@ func handleExpectingInterest(session *discordgo.Session, message *discordgo.Mess
 func handleConfirmInterest(session *discordgo.Session, message *discordgo.MessageCreate) {
     content := strings.ToLower(strings.TrimSpace(message.Content))
     if content == "yes" {
-        description := tempStorage[message.Author.ID]
+        interest := tempStorage[message.Author.ID]
         
         // Prepare the POST request to API
-        data := PostRequest{
+        data := InterestPostRequest{
             DiscordID:      message.Author.ID,
-            Description:    description,
+            Interest:    interest,
         }
         jsonData, err := json.Marshal(data)
         if err != nil {

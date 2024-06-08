@@ -71,6 +71,7 @@ func main() {
 	authorized.GET("/search/skills", handler.SearchSkillsWithUserInfo) // Includes user info
 
 	// Interest routes
+	authorized.POST("/interests", handler.AddInterest)
 	authorized.DELETE("/interests/:id", handler.DeleteInterest)
 	authorized.GET("/search/interests", handler.SearchInterestsWithUserInfo) // Includes user info
 	authorized.PUT("/interests/:id", handler.UpdateInterest)

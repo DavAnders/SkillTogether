@@ -73,6 +73,7 @@ func main() {
 	// Interest routes
 	authorized.DELETE("/interests/:id", handler.DeleteInterest)
 	authorized.GET("/search/interests", handler.SearchInterestsWithUserInfo) // Includes user info
+	authorized.PUT("/interests/:id", handler.UpdateInterest)
 
 	// User routes
 	authorized.PUT("/users/:discord_id", handler.UpdateUser)

@@ -70,6 +70,9 @@ func main() {
 	authorized.DELETE("/skills/:id", handler.DeleteSkill)
 	authorized.GET("/search/skills", handler.SearchSkillsWithUserInfo) // Includes user info
 
+	// Interest routes
+	authorized.DELETE("/interests/:id", handler.DeleteInterest)
+
 	// User routes
 	authorized.PUT("/users/:discord_id", handler.UpdateUser)
 	authorized.GET("/users/:discord_id", handler.GetUser)

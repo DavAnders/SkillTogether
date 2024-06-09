@@ -288,10 +288,14 @@ func ListInterests(session *discordgo.Session, message *discordgo.MessageCreate)
 }
 
 func HandleCommand(session *discordgo.Session, message *discordgo.MessageCreate) {
+    frontendURL := os.Getenv("FRONTEND_URL")
     if strings.HasPrefix(message.Content, "!") {
         // Parse + direct
         command := strings.ToLower(strings.TrimSpace(message.Content))
         switch {
+        case command == "!site":
+            msg := fmt.Sprintf("Visit the site at %s to view the dashboard.", frontendURL)
+            session.ChannelMessageSend(message.ChannelID, msg)
         case command == "!addskill":
             AddSkill(session, message)
         case command == "!addinterest":
@@ -299,7 +303,7 @@ func HandleCommand(session *discordgo.Session, message *discordgo.MessageCreate)
         case command == "!ping":
             session.ChannelMessageSend(message.ChannelID, "Pong!")
         case command == "!help":
-            session.ChannelMessageSend(message.ChannelID, "List of commands:\n`!addskill` - Start adding a new skill.\n`!addinterest` - Start adding a new interest.\n`!ping` - Responds with 'Pong!'.\n`!help` - Shows this message.")
+            session.ChannelMessageSend(message.ChannelID, "List of commands:\n`!addskill` - Start adding a new skill.\n`!addinterest` - Start adding a new interest.\n`!ping` - Responds with 'Pong!'.\n `!site` - Displays the link to the website dashboard. \n`!help` - Shows this message.")
         default:
             session.ChannelMessageSend(message.ChannelID, "Unknown command. Type !help for a list of commands.")
         }

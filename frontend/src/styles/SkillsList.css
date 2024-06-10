@@ -1,0 +1,32 @@
+.skills-list,
+.interests-list {
+  max-width: 800px;
+}
+
+.skills-list h2,
+.interests-list h2 {
+  color: #333;
+}
+
+.skills-list ul,
+.interests-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.skills-list li,
+.interests-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.skills-list p,
+.interests-list p {
+  color: #666;
+}

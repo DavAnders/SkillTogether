@@ -1,0 +1,52 @@
+.dashboard {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.dashboard h1 {
+  text-align: center;
+}
+
+.dashboard .user-info {
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.dashboard .user-info img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+
+.section {
+  padding: 20px;
+}
+
+.logout {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  float: right;
+}
+
+.logout:hover {
+  background-color: #c82333;
+}
+
+.dashboard::after {
+  content: "";
+  display: table;
+  clear: both;
+}

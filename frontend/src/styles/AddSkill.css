@@ -1,0 +1,45 @@
+.add-skill-form,
+.add-interest-form {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.add-skill-form label,
+.add-interest-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.add-skill-form input[type="text"],
+.add-interest-form input[type="text"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-skill-form button,
+.add-interest-form button {
+  padding: 10px 20px;
+  background-color: slategrey;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-skill-form button:hover,
+.add-interest-form button:hover {
+  background-color: darkslategrey;
+}
+
+.add-skill-form p,
+.add-interest-form p {
+  color: red;
+  margin-top: 10px;
+}

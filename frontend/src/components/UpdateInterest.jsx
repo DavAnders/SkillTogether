@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DOMPurify from "dompurify";
 import api from "./Api";
 
-const UpdateInterest = ({ interestId }) => {
+const UpdateInterest = ({ interestId, onInterestUpdated }) => {
   const [interest, setInterest] = useState("");
   const [error, setError] = useState("");
 
@@ -37,9 +37,10 @@ const UpdateInterest = ({ interestId }) => {
     const sanitizedInterest = DOMPurify.sanitize(interest);
 
     try {
-      await api.put(`/api/interest/${interestId}`, {
-        description: sanitizedInterest,
+      await api.put(`/api/interests/${interestId}`, {
+        interest: sanitizedInterest,
       });
+      onInterestUpdated();
     } catch (error) {
       setError("Failed to update interest.");
     }
@@ -62,6 +63,7 @@ const UpdateInterest = ({ interestId }) => {
 
 UpdateInterest.propTypes = {
   interestId: PropTypes.number.isRequired,
+  onInterestUpdated: PropTypes.func.isRequired,
 };
 
 export default UpdateInterest;

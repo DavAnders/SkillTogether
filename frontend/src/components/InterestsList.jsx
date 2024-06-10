@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "./Api";
 import "../styles/SkillsList.css";
+import InterestItem from "./InterestItem";
 
 const InterestsList = () => {
   const [interests, setInterests] = useState([]);
@@ -22,6 +23,11 @@ const InterestsList = () => {
     }
   };
 
+  const handleInterestUpdated = () => {
+    fetchInterests(); // Refresh the list after update
+    setError(""); // Reset error
+  };
+
   const handleDelete = async (id) => {
     try {
       await api.delete(`/api/interests/${id}`);
@@ -39,10 +45,12 @@ const InterestsList = () => {
       <ul>
         {interests.length > 0 ? (
           interests.map((interest) => (
-            <li key={interest.id}>
-              {interest.interest}
-              <button onClick={() => handleDelete(interest.id)}>Delete</button>
-            </li>
+            <InterestItem
+              key={interest.id}
+              interest={interest}
+              handleDelete={handleDelete}
+              onInterestUpdated={handleInterestUpdated}
+            />
           ))
         ) : (
           <p>No interests found.</p>

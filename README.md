@@ -8,6 +8,10 @@ You can add skills or interests that you are interested in by messaging the bot,
   <img src="./assets/discord_example.png" width="500" title="Example use of Discord Bot" alt="example use of discord bot to add skills">
 </p>
 
+<p align="center">
+  <img src="./assets/website_example.png" width="500" title="Example use of the website" alt="example use of the project website">
+</p>
+
 ## Why?
 
 Some friends in the past have wanted more methods to find people with similar interests, and a few have wished for a way to learn new skills from individuals without it being a financial transaction.

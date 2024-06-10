@@ -84,7 +84,24 @@ The Discord bot supports the following commands currently:
    cd SkillTogether
    ```
 
-2. **Backend setup**:
+2. **PostgreSQL setup**:
+
+   - Install PostgreSQL if it's not already installed. Refer to the [PostgreSQL documentation](https://www.postgresql.org/docs/current/tutorial-install.html) for installation instructions.
+   - Create a new PostgreSQL database:
+     ```sh
+     createdb your_database_name
+     ```
+   - Set up the database configuration in the `.env` file:
+     ```sh
+     DB_HOST=your_db_host
+     DB_NAME=your_database_name
+     DB_USER=your_db_user
+     DB_PASSWORD=your_db_password
+     DB_PORT=your_db_port
+     DB_SSLMODE=disable
+     ```
+
+3. **Backend setup**:
 
    - Navigate to the backend directory:
      ```sh
@@ -100,7 +117,7 @@ The Discord bot supports the following commands currently:
      go run main.go
      ```
 
-3. **Frontend setup**:
+4. **Frontend setup**:
 
    - Navigate to the frontend directory:
      ```sh
@@ -115,7 +132,7 @@ The Discord bot supports the following commands currently:
      npm run dev
      ```
 
-4. **Bot setup**:
+5. **Bot setup**:
    - Create a bot on the Discord Developer Portal.
    - Add the bot token and other required environment variables to your `.env` file:
      ```sh

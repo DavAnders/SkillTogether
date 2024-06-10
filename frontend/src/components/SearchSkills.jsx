@@ -35,40 +35,44 @@ const SearchSkills = () => {
   };
 
   return (
-    <div className="search-skills">
-      <h2>Search for Skills</h2>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter skill to search..."
-      />
-      <button onClick={handleSearch} disabled={isLoading}>
-        {isLoading ? "Searching..." : "Search"}
-      </button>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div>
-        {skills.length > 0 ? (
-          <ul>
-            {skills.map((result, index) => (
-              <li key={index}>
-                <div>
-                  <strong>Skill:</strong> {result.skill.skill_description}
-                </div>
-                <div>
-                  <strong>Posted by:</strong> {result.user.username}
-                </div>
-                <button
-                  onClick={() => handleInterested(result.user.discord_id)}
-                >
-                  Interested
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          !isLoading && <p>No skills found, please try a different search.</p>
-        )}
+    <div className="search-skills-container">
+      <div className="search-skills">
+        <h2>Search for Skills</h2>
+        <div className="search-input">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Enter skill to search..."
+          />
+          <button onClick={handleSearch} disabled={isLoading}>
+            {isLoading ? "Searching..." : "Search"}
+          </button>
+        </div>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <div className="search-results-container">
+          {skills.length > 0 ? (
+            <ul>
+              {skills.map((result, index) => (
+                <li key={index}>
+                  <div>
+                    <strong>Skill:</strong> {result.skill.skill_description}
+                  </div>
+                  <div>
+                    <strong>Posted by:</strong> {result.user.username}
+                  </div>
+                  <button
+                    onClick={() => handleInterested(result.user.discord_id)}
+                  >
+                    Interested
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            !isLoading && <p>No skills found, please try a different search.</p>
+          )}
+        </div>
       </div>
     </div>
   );

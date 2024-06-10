@@ -1,4 +1,5 @@
-.skill-item button {
+.skill-item button,
+.interest-item button {
   background: #5e5df0;
   border-radius: 999px;
   box-shadow: #5e5df0 0 10px 20px -10px;
@@ -9,9 +10,9 @@
     NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji",
     EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
     "Noto Sans", sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 14px;
   opacity: 1;
   outline: 0 solid transparent;
   padding: 8px 18px;
@@ -19,6 +20,13 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   width: fit-content;
-  word-break: break-word;
   border: 0;
+}
+
+.skill-buttons,
+.interest-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }

@@ -72,25 +72,42 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <h1>Dashboard</h1>
-        <h2>Welcome, {user?.username}!</h2>
-        <img src={user?.avatar_url} alt={`${user?.username}'s avatar`} />
-        <button className="logout" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="user-info">
+          <div className="user-info-top">
+            <h2>Welcome, {user?.username}!</h2>
+            <img src={user?.avatar_url} alt={`${user?.username}'s avatar`} />
+          </div>
+          <div className="user-info-bottom">
+            <button className="logout" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
       <div className="main-content">
         <div className="column">
-          <AddSkill refreshSkills={fetchData} />
-          <AddInterest refreshInterests={fetchData} />
+          <div className="section" id="add-skill">
+            <AddSkill refreshSkills={fetchData} />
+          </div>
+          <div className="section" id="add-interest">
+            <AddInterest refreshInterests={fetchData} />
+          </div>
         </div>
         <div className="column">
-          <SearchSkills />
-          <SearchInterests />
+          <div className="section scrollable-section" id="search-skills">
+            <SearchSkills />
+          </div>
+          <div className="section scrollable-section" id="search-interests">
+            <SearchInterests />
+          </div>
         </div>
         <div className="column">
-          <SkillsList skills={skills} refreshSkills={fetchData} />
-          <InterestsList interests={interests} refreshInterests={fetchData} />
+          <div className="section scrollable-section">
+            <SkillsList skills={skills} refreshSkills={fetchData} />
+          </div>
+          <div className="section scrollable-section">
+            <InterestsList interests={interests} refreshInterests={fetchData} />
+          </div>
         </div>
       </div>
     </div>

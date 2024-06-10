@@ -6,6 +6,11 @@
 .skills-list h2,
 .interests-list h2 {
   color: #333;
+  position: sticky;
+  top: 0;
+  padding: 10px 0;
+  z-index: 1;
+  background-color: #f9f9f9;
 }
 
 .skills-list ul,
@@ -29,4 +34,64 @@
 .skills-list p,
 .interests-list p {
   color: #666;
+}
+
+.skills-list,
+.interests-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 20px;
+  padding-top: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+/* Custom scrollbar styles for WebKit browsers */
+.skills-list::-webkit-scrollbar,
+.interests-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.skills-list::-webkit-scrollbar-track,
+.interests-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.skills-list::-webkit-scrollbar-thumb,
+.interests-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.skills-list::-webkit-scrollbar-thumb:hover,
+.interests-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Fallback styles for other browsers for now */
+.skills-list,
+.interests-list {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.skills-list::-moz-scrollbar,
+.interests-list::-moz-scrollbar {
+  width: 8px;
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.skills-list::-moz-scrollbar-thumb,
+.interests-list::-moz-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.skills-list::-moz-scrollbar-thumb:hover,
+.interests-list::-moz-scrollbar-thumb:hover {
+  background: #555;
 }

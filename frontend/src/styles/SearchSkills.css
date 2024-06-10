@@ -1,3 +1,14 @@
+.search-skills-container,
+.search-interests-container {
+  margin-top: 10px;
+  max-width: 800px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .search-skills,
 .search-interests {
   max-width: 800px;
@@ -6,13 +17,21 @@
 .search-skills h2,
 .search-interests h2 {
   color: #333;
+  position: sticky;
+  padding: 10px 0;
+  background-color: white;
+}
+
+.search-input {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .search-skills input[type="text"],
 .search-interests input[type="text"] {
-  width: calc(100% - 120px);
+  flex-grow: 1;
   padding: 10px;
-  margin-right: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -30,6 +49,13 @@
 .search-skills button:hover,
 .search-interests button:hover {
   background-color: darkslategray;
+}
+
+.search-results-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: white;
 }
 
 .search-skills ul,
@@ -66,4 +92,9 @@
 .search-skills li button:hover,
 .search-interests li button:hover {
   background-color: #218838;
+}
+
+#add-skill,
+#add-interest {
+  justify-content: center;
 }

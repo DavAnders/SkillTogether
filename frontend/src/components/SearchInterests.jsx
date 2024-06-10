@@ -35,40 +35,44 @@ const SearchInterests = () => {
   };
 
   return (
-    <div className="search-interests">
-      <h2>Search for Interests</h2>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter interest to search..."
-      />
-      <button onClick={handleSearch} disabled={isLoading}>
-        {isLoading ? "Searching..." : "Search"}
-      </button>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div>
-        {interests.length > 0 ? (
-          <ul>
-            {interests.map((result, index) => (
-              <li key={index}>
-                <div>
-                  <strong>Interest:</strong> {result.interest.interest}
-                </div>
-                <div>
-                  <strong>Posted by:</strong> {result.user.username}
-                </div>
-                <button onClick={() => handleContact(result.user.discord_id)}>
-                  Contact
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          !isLoading && (
-            <p>No interests found, please try a different search.</p>
-          )
-        )}
+    <div className="search-interests-container">
+      <div className="search-interests">
+        <h2>Search for Interests</h2>
+        <div className="search-input">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Enter interest to search..."
+          />
+          <button onClick={handleSearch} disabled={isLoading}>
+            {isLoading ? "Searching..." : "Search"}
+          </button>
+        </div>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <div className="search-results-container">
+          {interests.length > 0 ? (
+            <ul>
+              {interests.map((result, index) => (
+                <li key={index}>
+                  <div>
+                    <strong>Interest:</strong> {result.interest.interest}
+                  </div>
+                  <div>
+                    <strong>Posted by:</strong> {result.user.username}
+                  </div>
+                  <button onClick={() => handleContact(result.user.discord_id)}>
+                    Contact
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            !isLoading && (
+              <p>No interests found, please try a different search.</p>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

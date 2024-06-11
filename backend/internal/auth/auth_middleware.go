@@ -13,7 +13,6 @@ import (
 func AuthMiddleware(q *db.Queries) gin.HandlerFunc {
     return func(c *gin.Context) {
         token, err := c.Cookie("session_token")
-        log.Printf("Retrieved session token: %s", token)
         if err != nil {
             log.Printf("No session token provided: %v", err)
             c.JSON(401, gin.H{"error": "Unauthorized"})

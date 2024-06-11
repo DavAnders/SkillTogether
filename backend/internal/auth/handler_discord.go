@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/DavAnders/SkillTogether/backend/db"
@@ -52,22 +53,24 @@ func (h *AuthHandler) DiscordCallbackHandler(c *gin.Context) {
         return
     }
 
-    if err := h.handleLogin(ctx, user, tokenHash); err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to handle login"})
-        return
-    }
-
     if err := processDiscordUser(ctx, h.Queries, user, tokenHash); err != nil {
+        log.Printf("processDiscordUser failed: %v", err)
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
 
-    c.SetCookie("session_token", sessionToken, 86400, "/", "", false, true)
-    log.Println("Cookie set")
+    if err := h.handleLogin(ctx, user, tokenHash); err != nil {
+        log.Printf("handleLogin failed: %v", err)
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to handle login"})
+        return
+    }
 
-    frontendDashboardURL := "http://localhost:5173/dashboard"
+    c.SetCookie("session_token", sessionToken, 86400, "/", "", false, true)
+
+    frontendDashboardURL := os.Getenv("FRONTEND_URL") + "/dashboard"
     c.Redirect(http.StatusFound, frontendDashboardURL)
 }
+
 
 func getDiscordUser(data []byte) (*DiscordUser, error) {
 	var user DiscordUser
@@ -82,6 +85,7 @@ func processDiscordUser(ctx context.Context, q *db.Queries, user *DiscordUser, t
     _, err := q.GetUser(ctx, user.ID)
     if err != nil {
         if err == sql.ErrNoRows {
+            log.Println("User does not exist, creating new user")
             // Create new user with just the hash part of the token
             _, err = q.AddUser(ctx, db.AddUserParams{
                 DiscordID: user.ID,
@@ -90,21 +94,32 @@ func processDiscordUser(ctx context.Context, q *db.Queries, user *DiscordUser, t
                 AvatarUrl: sql.NullString{String: avatarURL, Valid: avatarURL != ""},
                 SessionToken: sql.NullString{String: tokenHash, Valid: tokenHash != ""},
             })
+            if err != nil {
+                log.Printf("Failed to create new user: %v", err)
+                return err
+            }
+        } else {
+            log.Printf("Failed to get user: %v", err)
             return err
         }
-        return err
+    } else {
+        // Update user information, storing only the hash part
+        err = q.UpdateUser(ctx, db.UpdateUserParams{
+            DiscordID: user.ID,
+            Username:  user.Username,
+            Email:     user.Email,
+            AvatarUrl: sql.NullString{String: avatarURL, Valid: avatarURL != ""},
+            SessionToken: sql.NullString{String: tokenHash, Valid: tokenHash != ""},
+        })
+        if err != nil {
+            log.Printf("Failed to update user: %v", err)
+            return err
+        }
     }
 
-    // Update user information, storing only the hash part
-    err = q.UpdateUser(ctx, db.UpdateUserParams{
-        DiscordID: user.ID,
-        Username:  user.Username,
-        Email:     user.Email,
-        AvatarUrl: sql.NullString{String: avatarURL, Valid: avatarURL != ""},
-        SessionToken: sql.NullString{String: tokenHash, Valid: tokenHash != ""},
-    })
-    return err
+    return nil
 }
+
 
 
 func generateSessionToken(userID string) (string, string, error) {

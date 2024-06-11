@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      REDIRECT_URL: ${REDIRECT_URL}
+      MY_API_KEY: ${MY_API_KEY}
+      DB_SSLMODE: disable
+      FRONTEND_URL: ${FRONTEND_URL}
+    ports:
+      - "8080:8080"
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    depends_on:
+      - db
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      API_URL: ${API_URL}
+      MY_API_KEY: ${MY_API_KEY}
+      FRONTEND_URL: ${FRONTEND_URL}
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80"
+    environment:
+      VITE_CLIENT_ID: ${CLIENT_ID}
+      VITE_REDIRECT_URI: ${REDIRECT_URL}
+      VITE_BASE_URL: ${API_URL}
+
+volumes:
+  db_data:

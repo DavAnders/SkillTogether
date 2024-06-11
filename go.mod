@@ -6,7 +6,6 @@ require (
 	github.com/bwmarrin/discordgo v0.28.1
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
-	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/ravener/discord-oauth2 v0.0.0-20230514095040-ae65713199b3
 	golang.org/x/oauth2 v0.20.0

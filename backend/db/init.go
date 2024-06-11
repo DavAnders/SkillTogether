@@ -17,6 +17,10 @@ func InitDB() (*sql.DB, error) {
 	dbname := os.Getenv("DB_NAME")
 	sslmode := os.Getenv("DB_SSLMODE")
 
+	if host == "" || port == "" || user == "" || password == "" || dbname == "" {
+        log.Fatal("Database environment variables are not set")
+    }
+
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		host, port, user, password, dbname, sslmode)
 	

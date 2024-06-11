@@ -16,7 +16,6 @@ func (h *AuthHandler) GetUserFromSession(c *gin.Context) {
         c.JSON(http.StatusUnauthorized, gin.H{"error": "No session token provided"})
         return
     }
-    log.Printf("Retrieved session token: %s", sessionToken)
 
     parts := strings.Split(sessionToken, ":")
     if len(parts) != 2 {
@@ -33,7 +32,6 @@ func (h *AuthHandler) GetUserFromSession(c *gin.Context) {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve Discord ID from session token"})
         return
     }
-    log.Printf("Retrieved Discord ID: %s", discordID)
 
     // Retrieve user details using Discord ID
     user, err := h.Queries.GetUserByDiscordID(c.Request.Context(), discordID)
@@ -42,7 +40,6 @@ func (h *AuthHandler) GetUserFromSession(c *gin.Context) {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user details"})
         return
     }
-    log.Printf("Retrieved user details: %+v", user)
 
     // Send only the avatar URL as a string if it's valid
     var avatarURL string

@@ -14,15 +14,14 @@ import (
 	"github.com/DavAnders/SkillTogether/backend/internal/handler"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
+	//err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatalf("Error loading .env file: %v", err)
+	// }
 
 	database, err := db.InitDB()
 	if err != nil {
@@ -37,9 +36,10 @@ func main() {
 	defer rows.Close()
 	log.Println("Accessed skills table successfully")
 
-
 	defer database.Close()
 
+	frontendURL := os.Getenv("FRONTEND_URL")
+	
 	config := cors.Config{
 		AllowOrigins: []string{"http://localhost:5173"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -47,7 +47,7 @@ func main() {
 		ExposeHeaders: []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
-			return origin == "http://localhost:5173"
+			return origin == frontendURL
 		},
 		MaxAge: 12 * time.Hour,
 	}

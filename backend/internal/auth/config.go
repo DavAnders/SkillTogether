@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/DavAnders/SkillTogether/backend/db"
-	"github.com/joho/godotenv"
 	"github.com/ravener/discord-oauth2"
 	"golang.org/x/oauth2"
 )
@@ -23,9 +22,9 @@ func getEnv(key, defaultValue string) string {
 }
 
 func init() {
-    if err := godotenv.Load(); err != nil {
-        log.Println("No .env file found")
-    }
+    //if err := godotenv.Load(); err != nil {
+    //  log.Println("No .env file found")
+    //}
 
     clientID := getEnv("CLIENT_ID", "")
     clientSecret := getEnv("CLIENT_SECRET", "")

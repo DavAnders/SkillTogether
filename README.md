@@ -81,6 +81,59 @@ The Discord bot supports the following commands currently:
 
 ## <a name="install">Installation</a>
 
+### Docker Installation
+
+1. **Clone the repository**:
+
+   ```sh
+   git clone https://github.com/DavAnders/SkillTogether.git
+   cd SkillTogether
+   ```
+
+2. **Create .env files**:
+
+   Create a `.env` file in the root directory with the following content:
+
+   ```plaintext
+   DISCORD_BOT_TOKEN=your-bot-token
+   DB_HOST=db
+   DB_NAME=your_db_name
+   DB_USER=your_db_user
+   DB_PASSWORD=your_db_password
+   DB_PORT=5432
+   DB_SSLMODE=disable
+   CLIENT_ID=your_client_id
+   CLIENT_SECRET=your_client_secret
+   REDIRECT_URL=your_redirect_url
+   API_URL=your_api_url
+   MY_API_KEY=your_api_key
+   FRONTEND_URL=your_frontend_url
+   ```
+
+   Create another `.env` file in the `frontend` directory with the following content:
+
+   ```plaintext
+   VITE_CLIENT_ID=your_client_id
+   VITE_REDIRECT_URI=your_redirect_url
+   VITE_BASE_URL=your_backend_url
+   ```
+
+3. **Docker setup**:
+
+   You will need to have Docker and Docker Compose installed on your system. Refer to the [Docker installation guide](https://docs.docker.com/get-docker/) and the [Docker Compose installation guide](https://docs.docker.com/compose/install/) for instructions.
+
+4. **Building and running containers**:
+
+   Run the following command in the root directory to build and start all the services:
+
+   ```sh
+   docker-compose up --build
+   ```
+
+   This command will build the Docker images for the backend, bot, and frontend services and start the containers along with a PostgreSQL database.
+
+### Non-Docker Installation
+
 1. **Clone the repository**:
 
    ```sh

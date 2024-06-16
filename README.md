@@ -252,3 +252,11 @@ This .env file needs to be in the root directory.
    git push origin feature-branch
    ```
 5. Open a pull request.
+
+## To-Do
+
+- Build out more commands and features for the bot.
+
+- Restructure the frontend as commands are added.
+
+- Host the project.

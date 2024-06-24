@@ -28,6 +28,8 @@ WORKDIR /root/
 COPY --from=builder /app/backendmain .
 COPY --from=builder /go/bin/goose /usr/local/bin/goose
 COPY wait-for-it.sh .
+# Copy .env file into the container
+COPY .env .  
 COPY ./backend/sql/schema ./migrations
 RUN chmod +x wait-for-it.sh
 

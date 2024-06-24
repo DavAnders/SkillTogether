@@ -14,14 +14,16 @@ import (
 	"github.com/DavAnders/SkillTogether/backend/internal/handler"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	"github.com/joho/godotenv"
 )
 
 
 func main() {
-	//err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file: %v", err)
-	// }
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 
 	database, err := db.InitDB()
 	if err != nil {

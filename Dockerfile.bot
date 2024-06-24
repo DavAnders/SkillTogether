@@ -25,6 +25,7 @@ RUN apk add --no-cache bash
 WORKDIR /root/
 
 # Copy the Pre-built binary file from the previous stage
+COPY .env .
 COPY --from=builder /app/botmain .
 
 # Command to run the executable

@@ -7,17 +7,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// User represents a user in the database, omitting some fields.
 type User struct {
-	ID         int    `json:"id"`
-	DiscordID  string `json:"discord_id"`
-	Username   string `json:"username"`
-	Email      string `json:"email"`
-	AvatarURL  string `json:"avatar_url"`
-	CreatedAt  string `json:"created_at"`
-	UpdatedAt  string `json:"updated_at"`
+	ID        int    `json:"id"`
+	DiscordID string `json:"discord_id"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	AvatarURL string `json:"avatar_url"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
 }
 
-func(h *Handler) GetUser(c *gin.Context) {
+// GetUser handles the retrieval of a user based on their Discord ID.
+func (h *Handler) GetUser(c *gin.Context) {
 	discordID := c.Param("discord_id")
 	if discordID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid discord id"})

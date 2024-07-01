@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetInterest retrieves an interest based on the provided ID.
 func (h *Handler) GetInterest(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

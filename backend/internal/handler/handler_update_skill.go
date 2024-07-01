@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UpdateSkill updates a skill's information based on the provided JSON request.
 func (h *Handler) UpdateSkill(c *gin.Context) {
 	var req db.UpdateSkillParams
 	if err := c.ShouldBindJSON(&req); err != nil {

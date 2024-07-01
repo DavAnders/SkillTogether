@@ -10,52 +10,54 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AuthMiddleware is a middleware function for Gin that validates a session token.
+// It checks for a session token in the cookies, validates it, and sets the Discord ID in the context.
 func AuthMiddleware(q *db.Queries) gin.HandlerFunc {
-    return func(c *gin.Context) {
-        token, err := c.Cookie("session_token")
-        if err != nil {
-            log.Printf("No session token provided: %v", err)
-            c.JSON(401, gin.H{"error": "Unauthorized"})
-            c.Abort()
-            return
-        }
+	return func(c *gin.Context) {
+		token, err := c.Cookie("session_token")
+		if err != nil {
+			log.Printf("No session token provided: %v", err)
+			c.JSON(401, gin.H{"error": "Unauthorized"})
+			c.Abort()
+			return
+		}
 
-        valid, discordID, err := validateToken(c.Request.Context(), q, token)
-        if err != nil || !valid {
-            log.Printf("Invalid session token: %v, %v", err, token)
-            c.JSON(401, gin.H{"error": "Unauthorized: Invalid session token"})
-            c.Abort()
-            return
-        }
+		valid, discordID, err := validateToken(c.Request.Context(), q, token)
+		if err != nil || !valid {
+			log.Printf("Invalid session token: %v, %v", err, token)
+			c.JSON(401, gin.H{"error": "Unauthorized: Invalid session token"})
+			c.Abort()
+			return
+		}
 
-        // Set the Discord ID in the Gin context, not the split ID from token
-        c.Set("discord_id", discordID)
+		// Set the Discord ID in the Gin context, not the split ID from token
+		c.Set("discord_id", discordID)
 
-        c.Next()
-    }
+		c.Next()
+	}
 }
 
 func validateToken(ctx context.Context, q *db.Queries, token string) (bool, string, error) {
-    // Split the token to separate the Discord ID and hash part
-    parts := strings.Split(token, ":")
-    if len(parts) != 2 {
-        log.Printf("Invalid token format: %s", token)
-        return false, "", fmt.Errorf("invalid token format")
-    }
-    
-    tokenHash := parts[1]  // This is what we store and validate against
+	// Split the token to separate the Discord ID and hash part
+	parts := strings.Split(token, ":")
+	if len(parts) != 2 {
+		log.Printf("Invalid token format: %s", token)
+		return false, "", fmt.Errorf("invalid token format")
+	}
 
-    discordID, err := q.GetUserIDFromSessionToken(ctx, tokenHash)
-    if err != nil {
-        log.Printf("Failed to retrieve Discord ID from session token: %v", err)
-        return false, "", fmt.Errorf("failed to validate session token: %v", err)
-    }
+	tokenHash := parts[1] // This is what we store and validate against
 
-    if discordID == "" {
-        log.Printf("No Discord ID associated with the provided token hash")
-        return false, "", fmt.Errorf("token validation failed")
-    }
+	discordID, err := q.GetUserIDFromSessionToken(ctx, tokenHash)
+	if err != nil {
+		log.Printf("Failed to retrieve Discord ID from session token: %v", err)
+		return false, "", fmt.Errorf("failed to validate session token: %v", err)
+	}
 
-    log.Printf("Token successfully validated for Discord ID: %s", discordID)
-    return true, discordID, nil
+	if discordID == "" {
+		log.Printf("No Discord ID associated with the provided token hash")
+		return false, "", fmt.Errorf("token validation failed")
+	}
+
+	log.Printf("Token successfully validated for Discord ID: %s", discordID)
+	return true, discordID, nil
 }

@@ -8,12 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
+// EnhancedInterest combines a simple interest row with user information.
 type EnhancedInterest struct {
 	Interest db.SimpleSearchInterestRow `json:"interest"`
 	User     UserSimple                 `json:"user"`
 }
 
+// SimpleSearchInterest handles the search for interests based on a query parameter.
+// An ILIKE search is used.
 func (h *Handler) SimpleSearchInterest(c *gin.Context) {
 	searchQuery := c.Query("q")
 	if searchQuery == "" {
@@ -33,6 +35,8 @@ func (h *Handler) SimpleSearchInterest(c *gin.Context) {
 	c.JSON(http.StatusOK, interests)
 }
 
+// SearchInterestsWithUserInfo handles the search for interests based on a query parameter.
+// An ILIKE search is used. This function also retrieves user information for each interest.
 func (h *Handler) SearchInterestsWithUserInfo(c *gin.Context) {
 	searchQuery := c.Query("q")
 	if searchQuery == "" {

@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UpdateInterest updates an interest's information based on the provided JSON request.
 func (h *Handler) UpdateInterest(c *gin.Context) {
 	var req db.UpdateInterestParams
 	if err := c.ShouldBindJSON(&req); err != nil {

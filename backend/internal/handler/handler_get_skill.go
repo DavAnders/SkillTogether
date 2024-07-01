@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetSkill handles the retrieval of a skill based on its ID.
 func (h *Handler) GetSkill(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// DeleteUser deletes a user based on the provided Discord ID.
 func (h *Handler) DeleteUser(c *gin.Context) {
 	user := c.Param("discord_id")
 	if err := h.Queries.DeleteUser(c, user); err != nil {

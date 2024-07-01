@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AddInterestByBot handles the addition of an interest by the Discord bot.
 func (h *Handler) AddInterestByBot(c *gin.Context) {
 	var input struct {
 		DiscordID string `json:"discord_id"`

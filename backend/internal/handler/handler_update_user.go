@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UpdateUser updates a user's information based on the provided JSON request.
 func (h *Handler) UpdateUser(c *gin.Context) {
 	var req db.UpdateUserParams
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -20,6 +21,6 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
 }

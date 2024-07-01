@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import PropTypes from "prop-types";
-import api from "./api";
+import api from "./Api";
 
 const AddSkill = ({ refreshSkills }) => {
   const [skill, setSkill] = useState("");

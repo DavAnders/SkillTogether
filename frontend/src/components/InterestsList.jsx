@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InterestItem from "./InterestItem";
-import api from "./api";
+import api from "./Api";
 import PropTypes from "prop-types";
 
 const InterestsList = ({ interests, refreshInterests }) => {

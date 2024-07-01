@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
-import api from "./api";
+import api from "./Api";
 
 const SearchResults = () => {
   const [results, setResults] = useState([]);

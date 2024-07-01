@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "./api";
+import api from "./Api";
 import SkillItem from "./SkillItem";
 import PropTypes from "prop-types";
 

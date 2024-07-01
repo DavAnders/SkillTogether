@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import { useEffect, useState } from "react";
-import api from "./components/api";
+import api from "./components/Api";
 import Footer from "./components/Footer";
 
 function App() {

@@ -66,7 +66,7 @@ func (h *AuthHandler) DiscordCallbackHandler(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("session_token", sessionToken, 86400, "/", "", false, true)
+	c.SetCookie("session_token", sessionToken, 86400, "/", "", true, true)
 
 	frontendDashboardURL := os.Getenv("FRONTEND_URL") + "/dashboard"
 	c.Redirect(http.StatusFound, frontendDashboardURL)

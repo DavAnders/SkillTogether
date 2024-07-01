@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 	"net/http"
+	"time"
 
 	"github.com/DavAnders/SkillTogether/backend/db"
 	"github.com/gin-gonic/gin"
@@ -10,8 +11,9 @@ import (
 
 // EnhancedInterest combines a simple interest row with user information.
 type EnhancedInterest struct {
-	Interest db.SimpleSearchInterestRow `json:"interest"`
-	User     UserSimple                 `json:"user"`
+	Interest  db.SimpleSearchInterestRow `json:"interest"`
+	User      UserSimple                 `json:"user"`
+	CreatedAt time.Time                  `json:"created_at"`
 }
 
 // SimpleSearchInterest handles the search for interests based on a query parameter.
@@ -74,6 +76,7 @@ func (h *Handler) SearchInterestsWithUserInfo(c *gin.Context) {
 				AvatarURL: avatarURL,
 				DiscordID: user.DiscordID,
 			},
+			CreatedAt: interest.CreatedAt.Time,
 		})
 	}
 

@@ -11,15 +11,16 @@ import (
 )
 
 const simpleSearchInterest = `-- name: SimpleSearchInterest :many
-SELECT interest, user_id
+SELECT interest, user_id, created_at
 FROM interests
 WHERE interest
 ILIKE '%' || $1 || '%'
 `
 
 type SimpleSearchInterestRow struct {
-	Interest string `json:"interest"`
-	UserID   int32  `json:"user_id"`
+	Interest  string       `json:"interest"`
+	UserID    int32        `json:"user_id"`
+	CreatedAt sql.NullTime `json:"created_at"`
 }
 
 func (q *Queries) SimpleSearchInterest(ctx context.Context, dollar_1 sql.NullString) ([]SimpleSearchInterestRow, error) {
@@ -31,7 +32,7 @@ func (q *Queries) SimpleSearchInterest(ctx context.Context, dollar_1 sql.NullStr
 	var items []SimpleSearchInterestRow
 	for rows.Next() {
 		var i SimpleSearchInterestRow
-		if err := rows.Scan(&i.Interest, &i.UserID); err != nil {
+		if err := rows.Scan(&i.Interest, &i.UserID, &i.CreatedAt); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

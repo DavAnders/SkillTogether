@@ -11,7 +11,7 @@ import (
 )
 
 const simpleSearchSkill = `-- name: SimpleSearchSkill :many
-SELECT skill_description, user_id
+SELECT skill_description, user_id, created_at
 FROM skills
 WHERE skill_description 
 ILIKE '%' || $1 || '%'
@@ -20,6 +20,7 @@ ILIKE '%' || $1 || '%'
 type SimpleSearchSkillRow struct {
 	SkillDescription string        `json:"skill_description"`
 	UserID           sql.NullInt32 `json:"user_id"`
+	CreatedAt        sql.NullTime  `json:"created_at"`
 }
 
 func (q *Queries) SimpleSearchSkill(ctx context.Context, dollar_1 sql.NullString) ([]SimpleSearchSkillRow, error) {
@@ -31,7 +32,7 @@ func (q *Queries) SimpleSearchSkill(ctx context.Context, dollar_1 sql.NullString
 	var items []SimpleSearchSkillRow
 	for rows.Next() {
 		var i SimpleSearchSkillRow
-		if err := rows.Scan(&i.SkillDescription, &i.UserID); err != nil {
+		if err := rows.Scan(&i.SkillDescription, &i.UserID, &i.CreatedAt); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

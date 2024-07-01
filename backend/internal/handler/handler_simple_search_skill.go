@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 	"net/http"
+	"time"
 
 	"github.com/DavAnders/SkillTogether/backend/db"
 	"github.com/gin-gonic/gin"
@@ -18,8 +19,9 @@ type UserSimple struct {
 
 // EnhancedSkill represents a skill along with associated user information.
 type EnhancedSkill struct {
-	Skill db.SimpleSearchSkillRow `json:"skill"`
-	User  UserSimple              `json:"user"`
+	Skill     db.SimpleSearchSkillRow `json:"skill"`
+	User      UserSimple              `json:"user"`
+	CreatedAt time.Time               `json:"created_at"`
 }
 
 // SimpleSearchSkill performs a simple search for skills based on a query parameter.
@@ -82,6 +84,7 @@ func (h *Handler) SearchSkillsWithUserInfo(c *gin.Context) {
 				AvatarURL: avatarURL,
 				DiscordID: user.DiscordID,
 			},
+			CreatedAt: skill.CreatedAt.Time,
 		})
 	}
 

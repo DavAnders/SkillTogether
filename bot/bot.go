@@ -52,17 +52,17 @@ func main() {
 }
 
 func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate) {
-    if message.Author.ID == session.State.User.ID {
-        return // Ignore bot's own messages
-    }
+	if message.Author.ID == session.State.User.ID {
+		return // Ignore bot's own messages
+	}
 
-    // Check if this message is part of an ongoing interaction
-    if handled := commands.HandleOngoingInteraction(session, message); handled {
-        return // If the message was part of an ongoing interaction, stop further processing
-    }
+	// Check if this message is part of an ongoing interaction
+	if handled := commands.HandleOngoingInteraction(session, message); handled {
+		return // If the message was part of an ongoing interaction, stop further processing
+	}
 
-    // Handle new commands
-    if strings.HasPrefix(message.Content, "!") {
-        commands.HandleCommand(session, message)
-    }
+	// Handle new commands
+	if strings.HasPrefix(message.Content, "!") {
+		commands.HandleCommand(session, message)
+	}
 }

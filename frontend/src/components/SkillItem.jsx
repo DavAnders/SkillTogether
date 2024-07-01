@@ -1,25 +1,38 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import UpdateSkill from "./UpdateSkill";
-import "../styles/SkillItem.css";
 
-function SkillItem({ skill, handleDelete, onSkillUpdated }) {
+const SkillItem = ({ skill, handleDelete, onSkillUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
 
+  if (!skill || typeof skill !== "object") {
+    console.error("Interest prop is missing or not an object", skill);
+    return null; // Render nothing if interest prop is invalid
+  }
+
   return (
-    <div className="skill-item">
-      <li key={skill.id}>
-        {skill.skill_description}
+    <li className="bg-white shadow-sm rounded-lg p-3 mb-2 transition-all duration-300 hover:shadow-md">
+      <div className="flex items-center justify-between">
+        <span className="text-gray-800">{skill.skill_description}</span>
         {!isEditing && (
-          <div
-            style={{ display: "flex", gap: "10px" }}
-            className="skill-buttons"
-          >
-            <button onClick={() => handleDelete(skill.id)}>Delete</button>
-            <button onClick={() => setIsEditing(true)}>Edit</button>
+          <div className="flex space-x-2">
+            <button
+              onClick={() => handleDelete(skill.id)}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition-colors duration-300"
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => setIsEditing(true)}
+              className="bg-violet-400 hover:bg-violet-500 text-white px-3 py-1 rounded text-sm transition-colors duration-300"
+            >
+              Edit
+            </button>
           </div>
         )}
-        {isEditing && (
+      </div>
+      {isEditing && (
+        <div className="mt-2">
           <UpdateSkill
             skillId={skill.id}
             onSkillUpdated={() => {
@@ -27,11 +40,11 @@ function SkillItem({ skill, handleDelete, onSkillUpdated }) {
               onSkillUpdated();
             }}
           />
-        )}
-      </li>
-    </div>
+        </div>
+      )}
+    </li>
   );
-}
+};
 
 SkillItem.propTypes = {
   skill: PropTypes.shape({

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import SkillsList from "./SkillsList";
-import AddSkill from "./AddSkill";
-import SearchSkills from "./SearchSkills";
-import "../styles/Dashboard.css";
-import AddInterest from "./AddInterest";
-import InterestsList from "./InterestsList";
-import SearchInterests from "./SearchInterests";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import api from "./Api";
+import api from "./api";
+import LoadingSpinner from "./LoadingSpinner";
+import SkillsList from "./SkillsList";
+import InterestsList from "./InterestsList";
+import Search from "./Search";
+import AddSkill from "./AddSkill";
+import AddInterest from "./AddInterest";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -42,14 +41,14 @@ const Dashboard = () => {
     fetchData();
   }, [fetchData]);
 
-  const handleLogout = () => {
-    document.cookie =
-      "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    navigate("/login");
-  };
-
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="my-auto">
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
   }
 
   if (!user) {
@@ -70,43 +69,58 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="dashboard">
-      <div className="sidebar">
-        <div className="user-info">
-          <div className="user-info-top">
-            <h2>Welcome, {user?.username}!</h2>
-            <img src={user?.avatar_url} alt={`${user?.username}'s avatar`} />
+    <div className="bg-gray-100 min-h-80">
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          {/* User Info Section */}
+          <div className="bg-gray-800 text-white p-6">
+            <div className="flex items-center">
+              <img
+                src={user.avatar_url}
+                alt={`${user.username}'s avatar`}
+                className="w-20 h-20 rounded-full mr-4"
+              />
+              <div>
+                <h1 className="text-2xl font-bold">
+                  Welcome, {user.username}!
+                </h1>
+                <p className="text-blue-200">Dashboard</p>
+              </div>
+            </div>
           </div>
-          <div className="user-info-bottom">
-            <button className="logout" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="main-content">
-        <div className="column">
-          <div className="section" id="add-skill">
-            <AddSkill refreshSkills={fetchData} />
-          </div>
-          <div className="section" id="add-interest">
-            <AddInterest refreshInterests={fetchData} />
-          </div>
-        </div>
-        <div className="column">
-          <div className="section scrollable-section" id="search-skills">
-            <SearchSkills />
-          </div>
-          <div className="section scrollable-section" id="search-interests">
-            <SearchInterests />
-          </div>
-        </div>
-        <div className="column">
-          <div className="section scrollable-section">
-            <SkillsList skills={skills} refreshSkills={fetchData} />
-          </div>
-          <div className="section scrollable-section">
-            <InterestsList interests={interests} refreshInterests={fetchData} />
+
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            {/* Skills Section */}
+            <div className="bg-white shadow rounded-lg p-4 relative">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Skills</h2>
+                <div className="absolute top-4 right-4">
+                  <AddSkill refreshSkills={fetchData} />
+                </div>
+              </div>
+              <SkillsList skills={skills} refreshSkills={fetchData} />
+            </div>
+
+            {/* Interests Section */}
+            <div className="bg-white shadow rounded-lg p-4 relative">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Interests</h2>
+                <div className="absolute top-4 right-4">
+                  <AddInterest refreshInterests={fetchData} />
+                </div>
+              </div>
+              <InterestsList
+                interests={interests}
+                refreshInterests={fetchData}
+              />
+            </div>
+
+            {/* Search Section */}
+            <div className="bg-white shadow rounded-lg p-4">
+              <h2 className="text-xl font-semibold mb-4">Search</h2>
+              <Search />
+            </div>
           </div>
         </div>
       </div>

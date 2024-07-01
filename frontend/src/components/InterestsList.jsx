@@ -1,63 +1,56 @@
-import { useEffect, useState } from "react";
-import api from "./Api";
-import "../styles/SkillsList.css";
+import { useState } from "react";
 import InterestItem from "./InterestItem";
+import api from "./api";
+import PropTypes from "prop-types";
 
-const InterestsList = () => {
-  const [interests, setInterests] = useState([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetchInterests();
-  }, []);
-
-  const fetchInterests = async () => {
-    try {
-      const response = await api.get("/api/interests");
-      // Check if response.data is an array, if not, set to empty array
-      setInterests(Array.isArray(response.data) ? response.data : []);
-      setError("");
-    } catch (err) {
-      setError("Failed to fetch interests: " + err.message);
-      setInterests([]);
-    }
-  };
-
-  const handleInterestUpdated = () => {
-    fetchInterests(); // Refresh the list after update
-    setError(""); // Reset error
-  };
+const InterestsList = ({ interests, refreshInterests }) => {
+  const [error, setError] = useState(null);
 
   const handleDelete = async (id) => {
     try {
+      setError(null); // Clear any previous errors
       await api.delete(`/api/interests/${id}`);
-      fetchInterests(); // Refresh the list after deletion
-      setError(""); // Reset error
-    } catch (err) {
-      setError("Failed to delete the interest: " + err.message);
+      refreshInterests();
+    } catch (error) {
+      console.error("Failed to delete interest:", error);
+      setError("Failed to delete interest. Please try again.");
+    }
+  };
+
+  const handleInterestUpdated = async () => {
+    try {
+      setError(null); // Clear any previous errors
+      await refreshInterests();
+    } catch (error) {
+      console.error("Failed to refresh interests:", error);
+      setError("Failed to update interests list. Please refresh the page.");
     }
   };
 
   return (
     <div className="interests-list">
-      <h2>Your Interests</h2>
-      {error && <p>{error}</p>}
-      <ul>
-        {interests.length > 0 ? (
-          interests.map((interest) => (
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {Array.isArray(interests) && interests.length > 0 ? (
+        <ul className="space-y-2">
+          {interests.map((interest) => (
             <InterestItem
               key={interest.id}
               interest={interest}
               handleDelete={handleDelete}
               onInterestUpdated={handleInterestUpdated}
             />
-          ))
-        ) : (
-          <p>No interests found.</p>
-        )}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500 italic">No interests found.</p>
+      )}
     </div>
   );
+};
+
+InterestsList.propTypes = {
+  interests: PropTypes.array,
+  refreshInterests: PropTypes.func.isRequired,
 };
 
 export default InterestsList;

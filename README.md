@@ -9,7 +9,7 @@ You can add skills or interests that you are interested in by messaging the bot,
 </p>
 
 <p align="center">
-  <img src="./assets/website_example.png" width="500" title="Example use of the website" alt="example use of the project website">
+  <img src="./assets/website_example.png" width="1000" title="Example use of the website" alt="example use of the project website">
 </p>
 
 ## Why?

@@ -33,9 +33,9 @@ const NavBar = ({ user, setUser }) => {
   };
 
   return (
-    <nav className="bg-gray-800 p-4 text-white">
-      <div className="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between">
-        <div className="flex items-center space-x-3">
+    <nav className="bg-gray-800 p-4 text-white sticky top-0 z-10">
+      <div className="flex flex-wrap items-center justify-between">
+        <div className="flex items-center flex-1 justify-center">
           <div
             className="w-10 h-5 bg-cover bg-center rounded-full"
             style={{ backgroundImage: `url(${skillImg})` }}
@@ -70,7 +70,7 @@ const NavBar = ({ user, setUser }) => {
         <div
           className={`${
             isMenuOpen ? "block" : "hidden"
-          } w-full md:block md:w-auto`}
+          } w-full md:block md:w-auto `}
           id="navbar-default"
         >
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-gray-800 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
@@ -116,7 +116,7 @@ const NavBar = ({ user, setUser }) => {
           </ul>
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3 justify-center flex-1">
           {user ? (
             <>
               <img

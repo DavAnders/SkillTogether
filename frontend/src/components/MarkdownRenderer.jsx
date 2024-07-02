@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const MarkdownRenderer = ({ content }) => {
   return (
-    <div className="markdown-content max-w-3xl mx-auto p-6">
+    <div className="markdown-content items-center max-w-3xl mx-auto p-6">
       <ReactMarkdown
         rehypePlugins={[rehypeRaw]}
         components={{

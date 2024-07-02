@@ -42,4 +42,4 @@ We reserve the right to modify these terms at any time. If we make changes to th
 
 ## 8. Contact Information
 
-If you have any questions about these Terms, please contact us at [Placeholder for now].
+If you have any questions about these Terms, please contact us at [our email](mailto:skilltogether.help@gmail.com).

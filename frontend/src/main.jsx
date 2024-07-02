@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard.jsx";
 import SearchResults from "./components/SearchResults.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
 import TermsOfService from "./components/TermsOfService.jsx";
+import Home from "./components/Home.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/about", element: <About /> },
-      // { path: "/", element: <Home /> },
+      { path: "/", element: <Home /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "search/:type", element: <SearchResults /> },
       { path: "privacy", element: <PrivacyPolicy /> },

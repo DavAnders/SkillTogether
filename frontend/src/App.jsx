@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import { useEffect, useState } from "react";
 import api from "./components/Api";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -28,9 +29,10 @@ function App() {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-slate-300">
+      <ScrollToTop />
       {showNavBar && <NavBar user={user} setUser={setUser} />}
-      <main className="flex-grow">
+      <main className="flex-grow flex">
         <Outlet context={{ user, setUser }} />
       </main>
       {showNavBar && <Footer />}

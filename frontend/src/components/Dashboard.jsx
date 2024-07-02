@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCallback } from "react";
 import api from "./Api";
 import LoadingSpinner from "./LoadingSpinner";
 import SkillsList from "./SkillsList";
@@ -53,23 +52,20 @@ const Dashboard = () => {
 
   if (!user) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <div className="flex flex-col flex-grow justify-center items-center min-h-full">
         <p>Not logged in</p>
-        <button onClick={() => navigate("/login")}>Go to Login Page</button>
+        <button
+          onClick={() => navigate("/login")}
+          className="px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500"
+        >
+          Go to Login Page
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-100 min-h-80">
+    <div className="flex-grow min-h-full bg-gray-100">
       <div className="container mx-auto px-4 py-8">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
           {/* User Info Section */}

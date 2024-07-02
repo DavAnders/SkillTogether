@@ -3,8 +3,8 @@ import AboutContent from "./AboutContent";
 
 const About = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="sm:flex items-center max-w-screen-xl">
+    <div className="bg-white flex justify-center items-center h-screen">
+      <div className="sm:flex items-center ">
         <div className="object-center text-center scale-75">
           <img src={skillImg} alt="SkillTogether" />
         </div>

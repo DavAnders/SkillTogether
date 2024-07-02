@@ -62,4 +62,4 @@ We keep our privacy policy under regular review and will place any updates on th
 
 ## 8. How to Contact Us
 
-If you have questions about this privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please contact us at [Placeholder for now].
+If you have questions about this privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please contact us at [our email](mailto:skilltogether.help@gmail.com).

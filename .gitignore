@@ -7,3 +7,5 @@
 *.dylib
 *.test
 *.out
+
+connect-script.sh

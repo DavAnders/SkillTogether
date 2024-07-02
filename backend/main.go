@@ -15,6 +15,7 @@ import (
 	"github.com/DavAnders/SkillTogether/backend/internal/handler"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/unrolled/secure"
 
 	"github.com/joho/godotenv"
 )
@@ -56,6 +57,29 @@ func main() {
 	}
 
 	router := gin.Default()
+
+	// Content Security Policy
+	csp := fmt.Sprintf("default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' %s", frontendURL)
+	// Set up secure middleware
+	secureMiddleware := secure.New(secure.Options{
+		FrameDeny:             true, // Deny clickjacking
+		ContentTypeNosniff:    true, // Prevent MIME sniffing
+		BrowserXssFilter:      true, // Prevent reflected XSS attacks
+		ContentSecurityPolicy: csp,  // Set Content-Security-Policy header
+	})
+
+	// Use secure middleware
+	router.Use(func(c *gin.Context) {
+		err := secureMiddleware.Process(c.Writer, c.Request)
+		if err != nil {
+			log.Printf("Error processing secure middleware: %v", err)
+			c.Abort()
+			return
+		}
+		c.Next()
+	})
+
+	// CORS middleware
 	router.Use(cors.New(config))
 
 	dbQueries := db.New(database)

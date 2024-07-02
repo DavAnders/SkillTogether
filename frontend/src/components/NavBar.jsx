@@ -12,8 +12,8 @@ const NavBar = ({ user, setUser }) => {
   };
 
   const handleLogout = async (event) => {
-    event.preventDefault(); // Had to add because browser wasn't redirecting without it
-    event.stopPropagation(); // Prevent the navbar toggle from firing
+    event.preventDefault();
+    event.stopPropagation();
     try {
       const response = await fetch("http://localhost:8080/api/logout", {
         method: "POST",
@@ -34,8 +34,8 @@ const NavBar = ({ user, setUser }) => {
 
   return (
     <nav className="bg-gray-800 p-4 text-white sticky top-0 z-10">
-      <div className="flex flex-wrap items-center justify-between">
-        <div className="flex items-center flex-1 justify-center">
+      <div className="flex items-center justify-between">
+        <div className="flex justify-start items-center flex-1">
           <div
             className="w-10 h-5 bg-cover bg-center rounded-full"
             style={{ backgroundImage: `url(${skillImg})` }}
@@ -47,38 +47,31 @@ const NavBar = ({ user, setUser }) => {
 
         <button
           onClick={toggleMenu}
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
+          className="p-2 w-10 h-10 text-gray-400 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 md:hidden"
         >
           <span className="sr-only">Open main menu</span>
           <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
             fill="none"
-            viewBox="0 0 17 14"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16m-7 6h7"
             />
           </svg>
         </button>
 
-        <div
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } w-full md:block md:w-auto `}
-          id="navbar-default"
-        >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-gray-800 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
+        <div className="flex-1 justify-center hidden md:flex">
+          <ul className="flex justify-center space-x-8">
             <li>
               <Link
                 to="/dashboard"
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0"
-                onClick={toggleMenu}
+                className="py-2 px-3 text-white hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:p-0 md:hover:text-blue-500"
               >
                 Dashboard
               </Link>
@@ -86,41 +79,19 @@ const NavBar = ({ user, setUser }) => {
             <li>
               <Link
                 to="/about"
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0"
-                onClick={toggleMenu}
+                className="py-2 px-3 text-white hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:p-0 md:hover:text-blue-500"
               >
                 About
               </Link>
             </li>
-            <li className="md:hidden">
-              {user ? (
-                <button
-                  onClick={(e) => {
-                    toggleMenu();
-                    handleLogout(e);
-                  }}
-                  className="w-full text-left block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0"
-                >
-                  Logout
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0"
-                  onClick={toggleMenu}
-                >
-                  Login
-                </Link>
-              )}
-            </li>
           </ul>
         </div>
 
-        <div className="hidden md:flex items-center gap-3 justify-center flex-1">
+        <div className="items-center flex-1 justify-end hidden md:flex">
           {user ? (
             <>
               <img
-                className="rounded-full w-10 h-10"
+                className="rounded-full w-10 h-10 mr-4"
                 src={user?.avatar_url}
                 alt={`${user?.username}'s avatar`}
               />
@@ -138,6 +109,47 @@ const NavBar = ({ user, setUser }) => {
               </button>
             </Link>
           )}
+        </div>
+
+        {/* Mobile menu dropdown */}
+        <div
+          className={`absolute top-full right-0 w-full md:hidden bg-gray-800 shadow-md ${
+            isMenuOpen ? "block" : "hidden"
+          }`}
+        >
+          <ul className="flex flex-col p-4">
+            <li>
+              <Link
+                to="/dashboard"
+                className="block py-2 px-3 text-white rounded hover:bg-gray-700"
+                onClick={toggleMenu}
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about"
+                className="block py-2 px-3 text-white rounded hover:bg-gray-700"
+                onClick={toggleMenu}
+              >
+                About
+              </Link>
+            </li>
+            {user && (
+              <li>
+                <button
+                  onClick={(e) => {
+                    toggleMenu();
+                    handleLogout(e);
+                  }}
+                  className="w-full text-left py-2 px-3 rounded hover:bg-gray-700"
+                >
+                  Logout
+                </button>
+              </li>
+            )}
+          </ul>
         </div>
       </div>
     </nav>

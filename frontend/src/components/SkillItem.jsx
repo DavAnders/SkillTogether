@@ -18,7 +18,7 @@ const SkillItem = ({ skill, handleDelete, onSkillUpdated }) => {
           <div className="flex space-x-2">
             <button
               onClick={() => handleDelete(skill.id)}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition-colors duration-300"
+              className="bg-rose-400 hover:bg-rose-500 text-white px-3 py-1 rounded text-sm transition-colors duration-300"
             >
               Delete
             </button>

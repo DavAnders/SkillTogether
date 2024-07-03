@@ -4,19 +4,19 @@ import skillImg from "../assets/ST-dark.png";
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-8">
-      <div className="flex flex-wrap items-center justify-between px-4">
-        <div className="flex-1 justify-center flex items-center mb-4 md:mb-0">
-          <div
-            className="w-10 h-5 bg-cover bg-center rounded-full"
-            style={{ backgroundImage: `url(${skillImg})` }}
-          />
-          <span className="self-center text-xl font-semibold whitespace-nowrap">
-            SkillTogether
-          </span>
-        </div>
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center justify-center">
+            <div
+              className="w-10 h-5 bg-cover bg-center rounded-full mr-2"
+              style={{ backgroundImage: `url(${skillImg})` }}
+            />
+            <span className="text-xl font-semibold whitespace-nowrap">
+              SkillTogether
+            </span>
+          </div>
 
-        <div className="flex-1 w-full justify-center md:w-auto text-center md:text-left">
-          <ul className="flex justify-center gap-5 mb-4 md:mb-0">
+          <ul className="flex flex-wrap justify-center gap-4">
             <li>
               <Link
                 to="/privacy"
@@ -34,10 +34,8 @@ const Footer = () => {
               </Link>
             </li>
           </ul>
-        </div>
 
-        <div className="flex-1 ml-auto flex justify-center md:w-auto text-center md:text-left">
-          <p>
+          <p className="text-center text-sm">
             &copy; {new Date().getFullYear()} SkillTogether. All rights
             reserved.
           </p>

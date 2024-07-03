@@ -29,7 +29,11 @@ const Home = () => {
       </header>
 
       <div className="mt-10 flex-grow flex items-center justify-center">
-        <img className="w-64 h-64" src={stDark} alt="SkillTogether" />
+        <img
+          className="w-64 h-64 rounded-full"
+          src={stDark}
+          alt="SkillTogether"
+        />
       </div>
     </div>
   );
